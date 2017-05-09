@@ -1,5 +1,6 @@
 const Generator = require('yeoman-generator')
 const fs = require('fs-extra')
+const path = require('path')
 
 module.exports = class extends Generator {
   constructor(args, opts) {
@@ -30,8 +31,21 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    fs
-      .copy(this.sourceRoot(), this.destinationRoot())
+    fs.copy(path.join(this.sourceRoot(), 'base'), this.destinationRoot())
+      .then(() => {
+        // this.fs.readJSON(
+        //   this.templatePath('_package.json'),
+        //  this.destinationPath('package.json')
+        // )
+
+        this.fs.writeJSON(
+          this.destinationPath('package.json'),
+          Object.assign(
+            this.fs.readJSON(path.join(process.cwd(), 'package.json')) || {},
+            this.fs.readJSON(this.templatePath('_package.json'))
+          )
+        )
+      })
       .then(() => this.log('Base file structure is built by the scaffold!'))
   }
 
@@ -57,4 +71,4 @@ module.exports = class extends Generator {
     }
   }
 
-};
+}

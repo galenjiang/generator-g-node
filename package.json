@@ -1,6 +1,6 @@
 {
   "name": "generator-g-node",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "yo-generator for node scafold",
   "main": "index.js",
   "scripts": {
